@@ -4,13 +4,6 @@ var TodoItem = React.createClass({
             updatedTitle: this.props.todoItem.title
         });
     },
-    shouldCompenentUpdate: function(nextProps, nextState) {
-        return (
-            nextProps.todoItem !== this.props.todoItem ||
-            nextProps.editing !== this.props.editing ||
-            nextState.updatedTitle !== this.state.updatedTitle
-            );
-    },
     componentDidUpdate: function(prevProps) {
         if (!prevProps.editing && this.props.editing) {
             var node = this.refs.editInput;
