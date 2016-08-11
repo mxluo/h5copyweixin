@@ -4,6 +4,20 @@ var TodoItem = React.createClass({
             updatedTitle: this.props.todoItem.title
         });
     },
+    shouldCompenentUpdate: function(nextProps, nextState) {
+        return (
+            nextProps.todoItem !== this.props.todoItem ||
+            nextProps.editing !== this.props.editing ||
+            nextState.updatedTitle !== this.state.updatedTitle
+            );
+    },
+    componentDidUpdate: function(prevProps) {
+        if (!prevProps.editing && this.props.editing) {
+            var node = this.refs.editInput;
+            node.focus();
+            node.setSelectionRange(node.value.length, node.value.length);
+        }
+    },
     handleDoubleClick: function(e) {
         this.props.onEditTodo(this.props.todoItem.id);
     },
@@ -41,7 +55,7 @@ var TodoItem = React.createClass({
             <label onDoubleClick={this.handleDoubleClick}>{this.props.todoItem.title}</label>
             <button className="destroy" onClick={this.handleDestroy}></button>
             </div>
-            <input className="edit" value={this.state.updatedTitle} onChange={this.handleChange} onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}/>
+            <input className="edit" ref="editInput" value={this.state.updatedTitle} onChange={this.handleChange} onKeyDown={this.handleKeyDown} onBlur={this.handleBlur}/>
             </li>
             );
     }
